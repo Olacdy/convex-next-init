@@ -32,11 +32,7 @@ The app is a basic multi-user chat. Walkthrough of the source code:
 - [convex/auth.ts](./convex/auth.ts) configures the available authentication methods
 - [convex/messages.ts](./convex/messages.ts) is the chat backend implementation
 - [middleware.ts](./middleware.ts) determines which pages require sign-in
-- [app/layout.tsx](./app/layout.tsx) is the main app layout
-- [app/(splash)/page.tsx](<./app/(splash)/page.tsx>) is the splash page (doesn't require sign-in)
-- [app/product/layout.tsx](./app/product/layout.tsx) is the "product" layout for the [product page](./app/product/page.tsx) (requires sign-in)
-- [app/signin/page.tsx](./app/signin/page.tsx) is the sign-in page
-- [app/product/Chat/Chat.tsx](./app/product/Chat/Chat.tsx) is the chat frontend
+- [app/layout.tsx](.src/app/layout.tsx) is the main app layout
 
 ## Configuring other authentication methods
 
