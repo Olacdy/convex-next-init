@@ -3,23 +3,23 @@ import {
   createRouteMatcher,
   isAuthenticatedNextjs,
   nextjsMiddlewareRedirect,
-} from "@convex-dev/auth/nextjs/server";
+} from '@convex-dev/auth/nextjs/server';
 
-const isSignInPage = createRouteMatcher(["/signin"]);
-const isProtectedRoute = createRouteMatcher(["/product(.*)"]);
+const isSignInPage = createRouteMatcher(['/signin']);
+const isProtectedRoute = createRouteMatcher(['/product(.*)']);
 
 export default convexAuthNextjsMiddleware((request) => {
   if (isSignInPage(request) && isAuthenticatedNextjs()) {
-    return nextjsMiddlewareRedirect(request, "/product");
+    return nextjsMiddlewareRedirect(request, '/product');
   }
-  
+
   if (isProtectedRoute(request) && !isAuthenticatedNextjs()) {
-    return nextjsMiddlewareRedirect(request, "/signin");
+    return nextjsMiddlewareRedirect(request, '/signin');
   }
 });
 
 export const config = {
   // The following matcher runs middleware on all routes
   // except static assets.
-  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
 };

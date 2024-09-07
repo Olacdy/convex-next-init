@@ -1,6 +1,6 @@
-import { FC } from "react";
-import { api } from "@/convex/_generated/api";
-import { fetchQuery } from "convex/nextjs";
+import { api } from '@/convex/_generated/api';
+import { fetchQuery } from 'convex/nextjs';
+import { FC } from 'react';
 
 type PageProps = {};
 

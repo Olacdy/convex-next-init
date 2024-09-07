@@ -5,19 +5,19 @@
  * You can safely delete it and remove it from package.json scripts.
  */
 
-import fs from "fs";
-import { config as loadEnvFile } from "dotenv";
-import { spawnSync } from "child_process";
+import { spawnSync } from 'child_process';
+import { config as loadEnvFile } from 'dotenv';
+import fs from 'fs';
 
-if (!fs.existsSync(".env.local")) {
+if (!fs.existsSync('.env.local')) {
   // Something is off, skip the script.
   process.exit(0);
 }
 
 const config = {};
-loadEnvFile({ path: ".env.local", processEnv: config });
+loadEnvFile({ path: '.env.local', processEnv: config });
 
-const runOnceWorkflow = process.argv.includes("--once");
+const runOnceWorkflow = process.argv.includes('--once');
 
 if (runOnceWorkflow && config.SETUP_SCRIPT_RAN !== undefined) {
   // The script has already ran once, skip.
@@ -26,40 +26,40 @@ if (runOnceWorkflow && config.SETUP_SCRIPT_RAN !== undefined) {
 
 // The fallback should never be used.
 const deploymentName =
-  config.CONVEX_DEPLOYMENT.split(":").slice(-1)[0] ?? "<your deployment name>";
+  config.CONVEX_DEPLOYMENT.split(':').slice(-1)[0] ?? '<your deployment name>';
 
 const variables = JSON.stringify({
   help:
-    "This template includes prebuilt sign-in via GitHub OAuth and " +
-    "magic links via Resend. " +
-    "This command can help you configure the credentials for these services " +
-    "via additional Convex environment variables.",
+    'This template includes prebuilt sign-in via GitHub OAuth and ' +
+    'magic links via Resend. ' +
+    'This command can help you configure the credentials for these services ' +
+    'via additional Convex environment variables.',
   providers: [
     {
-      name: "GitHub OAuth",
+      name: 'GitHub OAuth',
       help:
-        "Create a GitHub OAuth App, follow the instruction here: " +
-        "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app\n\n" +
+        'Create a GitHub OAuth App, follow the instruction here: ' +
+        'https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app\n\n' +
         `When you're asked for a callback URL use:\n\n` +
         `  https://${deploymentName}.convex.site/api/auth/callback/github`,
       variables: [
         {
-          name: "AUTH_GITHUB_ID",
-          description: "the Client ID of your GitHub OAuth App",
+          name: 'AUTH_GITHUB_ID',
+          description: 'the Client ID of your GitHub OAuth App',
         },
         {
-          name: "AUTH_GITHUB_SECRET",
-          description: "the generated client secret",
+          name: 'AUTH_GITHUB_SECRET',
+          description: 'the generated client secret',
         },
       ],
     },
     {
-      name: "Resend",
-      help: "Sign up for Resend at https://resend.com/signup. Then create an API Key.",
+      name: 'Resend',
+      help: 'Sign up for Resend at https://resend.com/signup. Then create an API Key.',
       variables: [
         {
-          name: "AUTH_RESEND_KEY",
-          description: "the API Key",
+          name: 'AUTH_RESEND_KEY',
+          description: 'the API Key',
         },
       ],
     },
@@ -69,19 +69,19 @@ const variables = JSON.stringify({
 });
 
 console.error(
-  "You chose Convex Auth as the auth solution. " +
-    "This command will walk you through setting up " +
-    "the required Convex environment variables",
+  'You chose Convex Auth as the auth solution. ' +
+    'This command will walk you through setting up ' +
+    'the required Convex environment variables'
 );
 
 const result = spawnSync(
-  "npx",
-  ["@convex-dev/auth", "--variables", variables, "--skip-git-check"],
-  { stdio: "inherit" },
+  'npx',
+  ['@convex-dev/auth', '--variables', variables, '--skip-git-check'],
+  { stdio: 'inherit' }
 );
 
 if (runOnceWorkflow) {
-  fs.writeFileSync(".env.local", `\nSETUP_SCRIPT_RAN=1\n`, { flag: "a" });
+  fs.writeFileSync('.env.local', `\nSETUP_SCRIPT_RAN=1\n`, { flag: 'a' });
 }
 
 process.exit(result.status);
