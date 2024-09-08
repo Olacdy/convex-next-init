@@ -1,0 +1,14 @@
+FROM debian:bookworm-slim
+
+RUN apt-get update && apt-get install -y curl unzip libstdc++6 && rm -rf /var/lib/apt/lists/*
+
+RUN curl -L -o convex-backend.zip https://github.com/get-convex/convex-backend/releases/download/precompiled-2024-09-06-c3c1be0/convex-local-backend-x86_64-unknown-linux-gnu.zip
+
+RUN unzip convex-backend.zip && \
+    mv convex-local-backend /usr/local/bin && \
+    rm convex-backend.zip
+
+RUN chmod +x /usr/local/bin/convex-local-backend
+
+EXPOSE 3210
+EXPOSE 3211

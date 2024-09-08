@@ -1,0 +1,16 @@
+services:
+  convex-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.convex
+    ports:
+      - '3210:3210'
+      - '3211:3211'
+    env_file:
+      - .env
+    volumes:
+      - convex:/convex
+    command: convex-local-backend --instance-name ${INSTANCE_NAME} --instance-secret ${INSTANCE_SECRET}
+
+volumes:
+  convex:
